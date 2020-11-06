@@ -2,12 +2,21 @@ defmodule FcGuilds.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias FcGuilds.Organizations.Organization
+
   @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
+
+    many_to_many(
+      :organizations,
+      Organization,
+      join_through: FcGuilds.Organizations.OrganizationUser,
+      on_replace: :delete
+    )
 
     timestamps()
   end

@@ -19,13 +19,15 @@ defmodule FcGuildsWeb.OrganizationController do
   end
 
   def create(conn, %{"organization" => organization_params}) do
-    case Organizations.create_organization(organization_params) do
+    user = conn.assigns.current_user
+    case Organizations.create_organization(organization_params, user) do
       {:ok, organization} ->
         conn
         |> put_flash(:info, "Organization created successfully.")
         |> redirect(to: Routes.organization_path(conn, :show, organization))
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect changeset
         render(conn, "new.html", changeset: changeset)
     end
   end

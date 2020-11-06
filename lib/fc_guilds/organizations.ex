@@ -49,9 +49,10 @@ defmodule FcGuilds.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_organization(attrs \\ %{}) do
+  def create_organization(attrs \\ %{}, user) do
     %Organization{}
     |> Organization.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:users, [user])
     |> Repo.insert()
   end
 

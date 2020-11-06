@@ -20,6 +20,7 @@ defmodule FcGuildsWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
   end
 
   # Other scopes may use custom stacks.
@@ -65,6 +66,8 @@ defmodule FcGuildsWeb.Router do
     put "/users/settings/update_password", UserSettingsController, :update_password
     put "/users/settings/update_email", UserSettingsController, :update_email
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+    resources "/organizations", OrganizationController
+    get "/organizations/link", OrganizationController, :link
   end
 
   scope "/", FcGuildsWeb do

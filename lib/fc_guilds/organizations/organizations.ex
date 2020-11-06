@@ -1,4 +1,4 @@
-defmodule FcGuilds.Organization do
+defmodule FcGuilds.Organizations.Organization do
   use Ecto.Schema
   import Ecto.Changeset
 

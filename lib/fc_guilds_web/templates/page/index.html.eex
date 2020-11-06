@@ -2,8 +2,8 @@
   <h1><%= gettext "Welcome to %{name}!", name: "Guilds" %></h1>
   <p>You don't appear to belong to an organization</p>
   <section style="display: flex;
-    justify-content: space-around;">
-    <a>Join an Organization</a>
-    <a>Create an Organization</a>
+                  justify-content: space-around;">
+    <%= link "Join an Organization", to: Routes.organization_path(@conn, :link) %>
+<%= link "Create an Organization", to: Routes.organization_path(@conn, :new) %>
   </section>
 </section>

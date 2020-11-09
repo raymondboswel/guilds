@@ -53,6 +53,10 @@ select {
 }
 
 /* Headers */
+.user-options > li > a { color: white};
+.user-options > li { color: white};
+
+.user-options > li:nth-child(1) {color: white !important}
 header {
   width: 100%;
   background: #fdfdfd;
@@ -61,7 +65,7 @@ header {
 }
 header section {
   align-items: center;
-  display: flex;
+
   flex-direction: column;
   justify-content: space-between;
 }

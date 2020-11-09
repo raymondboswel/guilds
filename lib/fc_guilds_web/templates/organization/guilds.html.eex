@@ -1,0 +1,24 @@
+<section class="phx-hero">
+  <%= link "Organizations", to: Routes.organization_path(@conn, :index ), class: "top-right" %>
+  <h1><%= @organization.name %></h1>
+
+    <%= if length(@organization.guilds) > 0 do %>
+
+  <%= for guild <- @organization.guilds do %>
+    <tr>
+      <td><%= guild.name %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.guild_path(@conn, :show, guild) %></span>
+        <span><%= link "Edit", to: Routes.guild_path(@conn, :edit, guild) %></span>
+        <span><%= link "Delete", to: Routes.guild_path(@conn, :delete, guild), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+    <% end %>
+
+    <% else %>
+    <p  >Your organization doesn't have any guilds yet. Be the first to create one!</p>
+    <%= link "Create a Guild", to: Routes.guild_path(@conn, :new, organization_id: @organization.id) %>
+  <% end %>
+
+</section>

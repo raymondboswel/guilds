@@ -1,0 +1,5 @@
+<h1>Edit Guild</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.guild_path(@conn, :update, @guild)) %>
+
+<span><%= link "Back", to: Routes.guild_path(@conn, :index) %></span>

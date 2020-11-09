@@ -1,0 +1,13 @@
+<h1>Show Guild</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @guild.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.guild_path(@conn, :edit, @guild) %></span>
+<span><%= link "Back", to: Routes.guild_path(@conn, :index) %></span>

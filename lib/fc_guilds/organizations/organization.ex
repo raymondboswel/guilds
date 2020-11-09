@@ -13,6 +13,8 @@ defmodule FcGuilds.Organizations.Organization do
       on_replace: :delete
     )
 
+    has_many :guilds, FcGuilds.Guilds.Guild
+
     timestamps()
   end
 

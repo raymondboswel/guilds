@@ -3,11 +3,12 @@
   <%= if length(@user.organizations) > 0 do %>
   <p> Select one of your organizations to get started:</p>
   <%= for org <- @user.organizations do %>
-      <%= link org.name, to: Routes.organization_path(@conn, :show, org.id) %>
+      <%= link org.name, to: Routes.organization_path(@conn, :guilds, organization_id: org.id) %>
       <br/>
       <br/>
-  <p> - OR - </p>
-  <% end %>
+
+      <% end %>
+      <p> - OR - </p>
   <% else %>
     <p  >You don't appear to belong to an organization</p>
   <% end %>

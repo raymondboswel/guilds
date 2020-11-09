@@ -1,0 +1,26 @@
+<h1>Listing Guilds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for guild <- @guilds do %>
+    <tr>
+      <td><%= guild.name %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.guild_path(@conn, :show, guild) %></span>
+        <span><%= link "Edit", to: Routes.guild_path(@conn, :edit, guild) %></span>
+        <span><%= link "Delete", to: Routes.guild_path(@conn, :delete, guild), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Guild", to: Routes.guild_path(@conn, :new) %></span>

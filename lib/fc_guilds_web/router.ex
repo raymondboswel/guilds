@@ -66,8 +66,12 @@ defmodule FcGuildsWeb.Router do
     put "/users/settings/update_password", UserSettingsController, :update_password
     put "/users/settings/update_email", UserSettingsController, :update_email
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-    resources "/organizations", OrganizationController
+    get "/organizations/guilds", OrganizationController, :guilds
     get "/organizations/link", OrganizationController, :link
+    resources "/organizations", OrganizationController
+
+
+    resources "/guilds", GuildController
   end
 
   scope "/", FcGuildsWeb do

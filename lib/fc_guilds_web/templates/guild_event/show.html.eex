@@ -1,0 +1,23 @@
+<h1>Show Guild event</h1>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @guild_event.title %>
+  </li>
+
+  <li>
+    <strong>Event date:</strong>
+    <%= @guild_event.event_date %>
+  </li>
+
+  <li>
+    <strong>Duration:</strong>
+    <%= @guild_event.duration %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.guild_event_path(@conn, :edit, @guild_event) %></span>
+<span><%= link "Back", to: Routes.guild_event_path(@conn, :index, guild_id: @guild_event.guild_id) %></span>

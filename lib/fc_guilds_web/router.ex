@@ -69,7 +69,7 @@ defmodule FcGuildsWeb.Router do
     get "/organizations/guilds", OrganizationController, :guilds
     get "/organizations/link", OrganizationController, :link
     resources "/organizations", OrganizationController
-
+    resources "/guild_events", GuildEventController
 
     resources "/guilds", GuildController
   end

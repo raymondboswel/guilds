@@ -1,0 +1,30 @@
+<h1>Listing Guild events</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Event date</th>
+      <th>Duration</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for guild_event <- @guild_events do %>
+    <tr>
+      <td><%= guild_event.title %></td>
+      <td><%= guild_event.event_date %></td>
+      <td><%= guild_event.duration %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.guild_event_path(@conn, :show, guild_event) %></span>
+        <span><%= link "Edit", to: Routes.guild_event_path(@conn, :edit, guild_event) %></span>
+        <span><%= link "Delete", to: Routes.guild_event_path(@conn, :delete, guild_event), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Guild event", to: Routes.guild_event_path(@conn, :new, guild_id: @guild_id) %></span>

@@ -22,7 +22,7 @@
           </ul>
           <%= render "_user_menu.html", assigns %>
         </nav>
-        <a style="width: 100%;" href="https://phoenixframework.org/" class="phx-logo">
+        <a style="width: 100%;" href="/" class="phx-logo">
           <img src="<%= Routes.static_path(@conn, "/images/guilds_banner.png") %>" alt="Phoenix Framework Logo"/>
         </a>
       </section>

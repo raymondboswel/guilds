@@ -4,16 +4,17 @@
 
     <%= if length(@organization.guilds) > 0 do %>
 
+    <table>
   <%= for guild <- @organization.guilds do %>
     <tr>
       <td><%= guild.name %></td>
-
-      <td>
-        <span><%= link "Show", to: Routes.guild_path(@conn, :show, guild) %></span>
+      <td style="text-align: right">
+        <span><%= link "Events", to: Routes.guild_event_path(@conn, :index, guild_id: guild.id) %></span>
         <span><%= link "Edit", to: Routes.guild_path(@conn, :edit, guild) %></span>
         <span><%= link "Delete", to: Routes.guild_path(@conn, :delete, guild), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>
+    </table>
     <% end %>
 
     <% else %>

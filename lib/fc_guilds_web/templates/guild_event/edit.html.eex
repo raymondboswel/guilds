@@ -1,0 +1,5 @@
+<h1>Edit Guild event</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.guild_event_path(@conn, :update, @guild_event)) %>
+
+<span><%= link "Back", to: Routes.guild_event_path(@conn, :index) %></span>

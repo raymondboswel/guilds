@@ -6,7 +6,8 @@ defmodule FcGuildsWeb.OrganizationController do
   alias FcGuilds.Repo
 
   def index(conn, _params) do
-    organizations = Organizations.list_organizations()
+    user = conn.assigns.current_user
+    organizations = Organizations.list_organizations(user)
     render(conn, "index.html", organizations: organizations)
   end
 
@@ -42,6 +43,11 @@ defmodule FcGuildsWeb.OrganizationController do
     user = conn.assigns.current_user
     organization = FcGuilds.Organizations.get_organization!(org_id) |> Repo.preload(:guilds)
     render(conn, "guilds.html", user: user, organization: organization)
+  end
+
+  def users(conn, %{"organization_id" => org_id }) do
+    organization = FcGuilds.Organizations.get_organization!(org_id) |> Repo.preload(:users)
+    render(conn, "users.html", organization: organization)
   end
 
   def edit(conn, %{"id" => id}) do

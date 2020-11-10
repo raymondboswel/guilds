@@ -1,0 +1,7 @@
+<%= form_for @conn, Routes.guild_event_path(@conn, :generate_assigned_events), [as: :form], fn f -> %>
+   <label>Number guilds events to create</label>
+   <%= number_input f, :count %>
+   <%= hidden_input f, :guild_id %>
+
+   <%= submit "Generate" %>
+<% end %>

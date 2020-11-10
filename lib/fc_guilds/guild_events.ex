@@ -7,6 +7,37 @@ defmodule FcGuilds.GuildEvents do
   alias FcGuilds.Repo
 
   alias FcGuilds.GuildEvents.GuildEvent
+  alias FcGuilds.Guilds
+
+  # Get frequency of users events as % and invert to get ideal distribution
+  # of assignments in next batch of events. Load array of users, with a
+  # max of 20 copies of a user if the user has had no previous guild events,
+  # then randomly select users from the list to assign guilds. This will
+  # give a higher probability of choosing a user that has presented fewer guilds
+
+  # TODO: Currently users aren't associated with guilds, so I can't include users
+  # with no guild events. Once the full members list is available, add a full 20
+  # instances of the new user to the list
+  def assign_guild_events(guild_id) do
+    #guild = Guilds.get_guild!(guild_id) |> Repo.preload(:users)
+    #users = guild.users
+    guild_events = list_guild_events(guild_id)
+    user_guild_events = Enum.group_by(guild_events, fn ge -> ge.user_id end)
+    user_guild_events_proportions =
+      Enum.map(user_guild_events,
+        fn({k, v}) ->
+          {k, 1 - length(v) / length(guild_events) } end)
+    frequency_list = user_guild_events_proportions
+    |> Enum.map(fn ugep ->
+      {user_id, proportion} = ugep
+      count = floor(20 * proportion)
+      for n <- 1..count, do: user_id
+    end)
+    |> Enum.concat
+
+    guild_assignees = Enum.take_random(frequency_list, 5)
+
+  end
 
   @doc """
   Returns the list of guild_events.

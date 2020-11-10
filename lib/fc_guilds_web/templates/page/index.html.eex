@@ -3,7 +3,7 @@
   <%= if length(@user.organizations) > 0 do %>
   <p> Select one of your organizations to get started:</p>
   <%= for org <- @user.organizations do %>
-      <%= link org.name, to: Routes.organization_path(@conn, :guilds, organization_id: org.id) %>
+      <%= link org.name, to: Routes.organization_path(@conn, :index, organization_id: org.id) %>
       <br/>
       <br/>
 
@@ -14,7 +14,7 @@
   <% end %>
   <section style="display: flex;
                   justify-content: space-around;">
-    <%= link "Join an Organization", to: Routes.organization_path(@conn, :link) %>
+    <%= link "Join an Organization, "  <> Integer.to_string(length(@invitations)) <> " pending invitation(s)", to: Routes.user_invite_path(@conn, :index) %>
     <%= link "Create an Organization", to: Routes.organization_path(@conn, :new) %>
   </section>
 </section>

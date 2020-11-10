@@ -1,10 +1,15 @@
 <section class="phx-hero">
-  <%= link "Organizations", to: Routes.organization_path(@conn, :index ), class: "top-right" %>
+  <%= link "Create a Guild", to: Routes.guild_path(@conn, :new, organization_id: @organization.id), class: "top-right" %>
   <h1><%= @organization.name %></h1>
 
     <%= if length(@organization.guilds) > 0 do %>
 
     <table>
+      <thead>
+        <th>Name</th>
+        <th></th>
+      </thead>
+      <tbody>
   <%= for guild <- @organization.guilds do %>
     <tr>
       <td><%= guild.name %></td>
@@ -14,12 +19,14 @@
         <span><%= link "Delete", to: Routes.guild_path(@conn, :delete, guild), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>
-    </table>
     <% end %>
+    </tbody>
+    </table>
+
 
     <% else %>
     <p  >Your organization doesn't have any guilds yet. Be the first to create one!</p>
-    <%= link "Create a Guild", to: Routes.guild_path(@conn, :new, organization_id: @organization.id) %>
+
   <% end %>
 
 </section>

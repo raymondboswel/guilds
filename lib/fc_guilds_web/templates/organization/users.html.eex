@@ -1,0 +1,34 @@
+<section class="phx-hero">
+
+  <div style="position: relative">
+    <h1><%= @organization.name %> users </h1>
+    <div style="position: absolute; right: 1em; top: 8px;">
+      <%= link "Invite member", to: Routes.user_invite_path(@conn, :new, organization_id: @organization.id) %>
+    </div>
+  </div>
+
+    <%= if length(@organization.users) > 0 do %>
+
+    <table>
+      <thead>
+        <th>Email</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <%= for user <- @organization.users do %>
+        <tr>
+          <td><%= user.email %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+
+    <% else %>
+    <p  >Your organization doesn't have any users yet. Invite some guild members to start collaborating!</p>
+
+  <% end %>
+
+
+
+</section>

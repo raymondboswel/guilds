@@ -15,6 +15,7 @@
 
       <td>
         <span><%= link "Guilds", to: Routes.organization_path(@conn, :guilds, organization_id: organization.id) %></span>
+        <span><%= link "Users", to: Routes.organization_path(@conn, :users, organization_id: organization.id) %></span>
         <span><%= link "Edit", to: Routes.organization_path(@conn, :edit, organization) %></span>
         <span><%= link "Delete", to: Routes.organization_path(@conn, :delete, organization), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>

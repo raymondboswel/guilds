@@ -1,0 +1,22 @@
+<h1>Listing User invites</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+<%= for user_invite <- @user_invites do %>
+    <tr>
+      <td><%= user_invite.organization.name %></td>
+      <td>
+        <span><%= link "Accept", to: Routes.user_invite_path(@conn, :accept, user_invite_id: user_invite.id) %></span>
+        <span><%= link "Delete", to: Routes.user_invite_path(@conn, :delete, user_invite), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

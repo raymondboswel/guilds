@@ -17,8 +17,9 @@ defmodule FcGuilds.Organizations do
       [%Organization{}, ...]
 
   """
-  def list_organizations do
-    Repo.all(Organization)
+  def list_organizations(user) do
+    user = Repo.preload(user, :organizations)
+    user.organizations
   end
 
   @doc """

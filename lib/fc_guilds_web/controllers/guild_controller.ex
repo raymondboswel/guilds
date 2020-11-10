@@ -28,6 +28,32 @@ defmodule FcGuildsWeb.GuildController do
     end
   end
 
+  def join(conn, %{"guild_id" => guild_id, "organization_id" => org_id}) do
+    case Guilds.join_guild(conn.assigns.current_user, guild_id) do
+      {:ok, guild} ->
+        conn
+        |> put_flash(:info, "Guild joined successfully.")
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:error, "Failed to join guild.")
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+    end
+  end
+
+  def leave(conn, %{"guild_id" => guild_id, "organization_id" => org_id}) do
+    case Guilds.leave_guild(conn.assigns.current_user, guild_id) do
+      {:ok, guild} ->
+        conn
+        |> put_flash(:info, "Guild left successfully.")
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:error, "Failed to join guild.")
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     guild = Guilds.get_guild!(id)
     render(conn, "show.html", guild: guild)

@@ -67,6 +67,8 @@ defmodule FcGuildsWeb.Router do
     put "/users/settings/update_email", UserSettingsController, :update_email
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     get "/organizations/guilds", OrganizationController, :guilds
+    get "/guilds/join", GuildController, :join
+    get "/guilds/leave", GuildController, :leave
     get "/organizations/users", OrganizationController, :users
     get "/organizations/link", OrganizationController, :link
     get "/user_invites/accept", UserInviteController, :accept

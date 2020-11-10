@@ -40,7 +40,7 @@ defmodule FcGuildsWeb.OrganizationController do
   end
 
   def guilds(conn, %{"organization_id" => org_id }) do
-    user = conn.assigns.current_user
+    user = conn.assigns.current_user |> Repo.preload(:guilds)
     organization = FcGuilds.Organizations.get_organization!(org_id) |> Repo.preload(:guilds)
     render(conn, "guilds.html", user: user, organization: organization)
   end

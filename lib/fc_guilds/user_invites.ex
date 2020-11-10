@@ -13,12 +13,7 @@ defmodule FcGuilds.UserInvites do
     user = FcGuilds.Accounts.get_user_by_email(current_user.email) |> Repo.preload(:organizations)
     user_invite = get_user_invite!(user_invite_id)
     org = FcGuilds.Organizations.get_organization!(user_invite.organization_id)
-    IO.inspect "Organizations"
-    IO.inspect(org)
     user_orgs = user.organizations ++ [org] |>  Enum.map(&Ecto.Changeset.change/1)
-    IO.inspect "User orgs"
-    IO.inspect user_orgs
-
     user
     |> Ecto.Changeset.change
     |> Ecto.Changeset.put_assoc(:organizations, user_orgs)

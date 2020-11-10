@@ -3,6 +3,7 @@ defmodule FcGuilds.Accounts.User do
   import Ecto.Changeset
 
   alias FcGuilds.Organizations.Organization
+  alias FcGuilds.Guilds.Guild
 
   @derive {Inspect, except: [:password]}
   schema "users" do
@@ -16,6 +17,13 @@ defmodule FcGuilds.Accounts.User do
       :organizations,
       Organization,
       join_through: FcGuilds.Organizations.OrganizationUser,
+      on_replace: :delete
+    )
+
+    many_to_many(
+      :guilds,
+      Guild,
+      join_through: FcGuilds.Guilds.GuildUser,
       on_replace: :delete
     )
 

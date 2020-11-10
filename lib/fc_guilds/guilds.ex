@@ -7,6 +7,26 @@ defmodule FcGuilds.Guilds do
   alias FcGuilds.Repo
 
   alias FcGuilds.Guilds.Guild
+  alias FcGuilds.Guilds.GuildUser
+
+  def join_guild(current_user, guild_id) do
+
+      # Todo: Ensure current_user.email and user_invite email are the same
+      user = FcGuilds.Accounts.get_user_by_email(current_user.email) |> Repo.preload(:guilds)
+      guild = FcGuilds.Guilds.get_guild!(guild_id)
+      user_guilds = user.guilds ++ [guild] |>  Enum.map(&Ecto.Changeset.change/1)
+      user
+      |> Ecto.Changeset.change
+      |> Ecto.Changeset.put_assoc(:guilds, user_guilds)
+      |> Repo.update
+
+  end
+
+  def leave_guild(current_user, guild_id) do
+    q = from(gu in GuildUser, where: gu.user_id == ^current_user.id and gu.guild_id == ^guild_id)
+    gu = Repo.one!(q)
+    Repo.delete(gu)
+  end
 
   @doc """
   Returns the list of guilds.

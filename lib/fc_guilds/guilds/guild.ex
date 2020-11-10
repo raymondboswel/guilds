@@ -6,6 +6,13 @@ defmodule FcGuilds.Guilds.Guild do
     field :name, :string
     field :organization_id, :id
 
+    many_to_many(
+      :users,
+      User,
+      join_through: FcGuilds.Guilds.GuildUser,
+      on_replace: :delete
+    )
+
     timestamps()
   end
 

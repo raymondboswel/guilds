@@ -18,24 +18,47 @@ defmodule FcGuilds.GuildEvents do
   # TODO: Currently users aren't associated with guilds, so I can't include users
   # with no guild events. Once the full members list is available, add a full 20
   # instances of the new user to the list
-  def assign_guild_events(guild_id) do
-    #guild = Guilds.get_guild!(guild_id) |> Repo.preload(:users)
-    #users = guild.users
+  def assign_guild_events(guild_id, count, frequency, start_date) do
+    guild = Guilds.get_guild!(guild_id)
+    IO.inspect guild
+    guild = guild |> Repo.preload(:users)
+    users = guild.users
     guild_events = list_guild_events(guild_id)
     user_guild_events = Enum.group_by(guild_events, fn ge -> ge.user_id end)
+
+    users_with_no_prior_events =
+      users
+      |> Enum.reject(fn u ->
+        guild_events
+        |> Enum.any?(fn ge -> ge.user_id == u.id end) end)
+    |> Enum.map(fn u -> {u.id, 1} end)
+
     user_guild_events_proportions =
       Enum.map(user_guild_events,
         fn({k, v}) ->
           {k, 1 - length(v) / length(guild_events) } end)
-    frequency_list = user_guild_events_proportions
+    frequency_list = user_guild_events_proportions ++ users_with_no_prior_events
     |> Enum.map(fn ugep ->
       {user_id, proportion} = ugep
       count = floor(20 * proportion)
       for n <- 1..count, do: user_id
     end)
-    |> Enum.concat
+    |> Enum.concat()
 
-    guild_assignees = Enum.take_random(frequency_list, 5)
+
+
+    interval = if frequency == 'weekly', do:  604800, else: 604800 * 2
+    guild_assignees = Enum.take_random(frequency_list, count)
+    dates = for n <- 1..count, do: DateTime.add(start_date, interval * (n-1))
+    guild_assignee_dates = Enum.zip(guild_assignees, dates)
+
+    Enum.each(guild_assignee_dates, fn gad ->
+      {user_id, event_date} = gad
+      res = create_guild_event(%{title: "Untitled", event_date: event_date, duration: 1800, guild_id: guild_id, user_id: user_id})
+      IO.inspect res
+    end)
+
+
 
   end
 
@@ -50,8 +73,8 @@ defmodule FcGuilds.GuildEvents do
   """
   def list_guild_events(guild_id) do
     q = from g in GuildEvent,
-      where: g.guild_id == ^guild_id
-
+      where: g.guild_id == ^guild_id,
+      order_by: [desc: g.event_date]
     Repo.all(q)
   end
 

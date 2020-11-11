@@ -1,6 +1,6 @@
 <h1>Listing Guild events: <%= @guild.name %></h1>
 <span><%= link "New Guild event", to: Routes.guild_event_path(@conn, :new, guild_id: @guild_id) %></span>
-<span><%= link "Assign Guild events", to: Routes.guild_event_path(@conn, :assign_events, guild_id: @guild_id) %></span>
+<span><%= link "Assign Guild events", to: Routes.guild_event_path(@conn, :assign_events, guild_id: @guild.id) %></span>
 
 <table>
   <thead>
@@ -17,7 +17,7 @@
     <tr>
       <td><%= guild_event.title %></td>
       <td><%= guild_event.event_date %></td>
-      <td><%= guild_event.duration %></td>
+      <td><%= guild_event.user.email %></td>
 
       <td>
         <span><%= link "Show", to: Routes.guild_event_path(@conn, :show, guild_event) %></span>

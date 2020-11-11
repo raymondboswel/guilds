@@ -8,7 +8,7 @@ defmodule FcGuilds.Guilds.Guild do
 
     many_to_many(
       :users,
-      User,
+      FcGuilds.Accounts.User,
       join_through: FcGuilds.Guilds.GuildUser,
       on_replace: :delete
     )

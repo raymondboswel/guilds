@@ -9,6 +9,9 @@
   <%= text_input f, :title %>
   <%= error_tag f, :title %>
 
+  <label>Organizer</label>
+  <%= select f, :user_id, Enum.map(@guild.users, &{&1.email, &1.id}) %>
+
   <%= label f, :event_date %>
   <%= datetime_select f, :event_date %>
   <%= error_tag f, :event_date %>
@@ -18,7 +21,6 @@
   <%= error_tag f, :duration %>
 
   <%= hidden_input f, :guild_id %>
-    <%= hidden_input f, :user_id %>
 
   <div>
     <%= submit "Save" %>

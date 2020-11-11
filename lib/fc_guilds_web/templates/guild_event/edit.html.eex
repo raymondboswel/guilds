@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.guild_event_path(@conn, :update, @guild_event)) %>
 
-<span><%= link "Back", to: Routes.guild_event_path(@conn, :index) %></span>
+<span><%= link "Back", to: Routes.guild_event_path(@conn, :index, guild_id: @guild.id) %></span>

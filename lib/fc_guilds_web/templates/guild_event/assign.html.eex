@@ -1,7 +1,13 @@
-<%= form_for @conn, Routes.guild_event_path(@conn, :generate_assigned_events), [as: :form], fn f -> %>
-   <label>Number guilds events to create</label>
-   <%= number_input f, :count %>
-   <%= hidden_input f, :guild_id %>
+<%= form_for @conn, Routes.guild_event_path(@conn, :generate_assigned_events),
+  [as: :form], fn f -> %>
+  <label>Start Date of Event Series</label>
+  <%= date_input f, :start_date %>
 
-   <%= submit "Generate" %>
+  <label>Frequency of events</label>
+  <%= select(f, :frequency, ["Weekly": "weekly", "Every two weeks": "fortnightly"], selected: "fortnightly") %>
+
+  <label>Number guilds events to create</label>
+  <%= number_input f, :count %>
+  <%= hidden_input f, :guild_id, value: @guild_id %>
+  <%= submit "Generate" %>
 <% end %>

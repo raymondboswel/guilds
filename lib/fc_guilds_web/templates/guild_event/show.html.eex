@@ -8,6 +8,11 @@
   </li>
 
   <li>
+    <strong>Organizer:</strong>
+    <%= @guild_event.user_id %>
+  </li>
+
+  <li>
     <strong>Event date:</strong>
     <%= @guild_event.event_date %>
   </li>

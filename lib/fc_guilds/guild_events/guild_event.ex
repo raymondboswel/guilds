@@ -6,7 +6,7 @@ defmodule FcGuilds.GuildEvents.GuildEvent do
     field :duration, :integer
     field :event_date, :utc_datetime
     field :title, :string
-    belongs_to(:user, FcGuilds.Accounts.User )
+    belongs_to(:user, FcGuilds.Accounts.User)
     field :guild_id, :id
 
     timestamps()

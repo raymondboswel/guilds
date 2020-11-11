@@ -41,14 +41,20 @@ defmodule FcGuilds.UserInvitesTest do
 
     test "update_user_invite/2 with valid data updates the user_invite" do
       user_invite = user_invite_fixture()
-      assert {:ok, %UserInvite{} = user_invite} = UserInvites.update_user_invite(user_invite, @update_attrs)
+
+      assert {:ok, %UserInvite{} = user_invite} =
+               UserInvites.update_user_invite(user_invite, @update_attrs)
+
       assert user_invite.email == "some updated email"
       assert user_invite.status == "some updated status"
     end
 
     test "update_user_invite/2 with invalid data returns error changeset" do
       user_invite = user_invite_fixture()
-      assert {:error, %Ecto.Changeset{}} = UserInvites.update_user_invite(user_invite, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               UserInvites.update_user_invite(user_invite, @invalid_attrs)
+
       assert user_invite == UserInvites.get_user_invite!(user_invite.id)
     end
 

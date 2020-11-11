@@ -56,7 +56,9 @@ defmodule FcGuildsWeb.UserInviteControllerTest do
     setup [:create_user_invite]
 
     test "redirects when data is valid", %{conn: conn, user_invite: user_invite} do
-      conn = put(conn, Routes.user_invite_path(conn, :update, user_invite), user_invite: @update_attrs)
+      conn =
+        put(conn, Routes.user_invite_path(conn, :update, user_invite), user_invite: @update_attrs)
+
       assert redirected_to(conn) == Routes.user_invite_path(conn, :show, user_invite)
 
       conn = get(conn, Routes.user_invite_path(conn, :show, user_invite))
@@ -64,7 +66,9 @@ defmodule FcGuildsWeb.UserInviteControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user_invite: user_invite} do
-      conn = put(conn, Routes.user_invite_path(conn, :update, user_invite), user_invite: @invalid_attrs)
+      conn =
+        put(conn, Routes.user_invite_path(conn, :update, user_invite), user_invite: @invalid_attrs)
+
       assert html_response(conn, 200) =~ "Edit User invite"
     end
   end
@@ -75,6 +79,7 @@ defmodule FcGuildsWeb.UserInviteControllerTest do
     test "deletes chosen user_invite", %{conn: conn, user_invite: user_invite} do
       conn = delete(conn, Routes.user_invite_path(conn, :delete, user_invite))
       assert redirected_to(conn) == Routes.user_invite_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.user_invite_path(conn, :show, user_invite))
       end

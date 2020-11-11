@@ -56,7 +56,9 @@ defmodule FcGuildsWeb.GuildEventControllerTest do
     setup [:create_guild_event]
 
     test "redirects when data is valid", %{conn: conn, guild_event: guild_event} do
-      conn = put(conn, Routes.guild_event_path(conn, :update, guild_event), guild_event: @update_attrs)
+      conn =
+        put(conn, Routes.guild_event_path(conn, :update, guild_event), guild_event: @update_attrs)
+
       assert redirected_to(conn) == Routes.guild_event_path(conn, :show, guild_event)
 
       conn = get(conn, Routes.guild_event_path(conn, :show, guild_event))
@@ -64,7 +66,9 @@ defmodule FcGuildsWeb.GuildEventControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, guild_event: guild_event} do
-      conn = put(conn, Routes.guild_event_path(conn, :update, guild_event), guild_event: @invalid_attrs)
+      conn =
+        put(conn, Routes.guild_event_path(conn, :update, guild_event), guild_event: @invalid_attrs)
+
       assert html_response(conn, 200) =~ "Edit Guild event"
     end
   end
@@ -75,6 +79,7 @@ defmodule FcGuildsWeb.GuildEventControllerTest do
     test "deletes chosen guild_event", %{conn: conn, guild_event: guild_event} do
       conn = delete(conn, Routes.guild_event_path(conn, :delete, guild_event))
       assert redirected_to(conn) == Routes.guild_event_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.guild_event_path(conn, :show, guild_event))
       end

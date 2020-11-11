@@ -12,7 +12,6 @@ defmodule FcGuildsWeb.OrganizationController do
   end
 
   def link(conn, _params) do
-
   end
 
   def new(conn, _params) do
@@ -22,6 +21,7 @@ defmodule FcGuildsWeb.OrganizationController do
 
   def create(conn, %{"organization" => organization_params}) do
     user = conn.assigns.current_user
+
     case Organizations.create_organization(organization_params, user) do
       {:ok, organization} ->
         conn
@@ -29,7 +29,7 @@ defmodule FcGuildsWeb.OrganizationController do
         |> redirect(to: Routes.organization_path(conn, :show, organization))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect changeset
+        IO.inspect(changeset)
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -39,13 +39,13 @@ defmodule FcGuildsWeb.OrganizationController do
     render(conn, "show.html", organization: organization)
   end
 
-  def guilds(conn, %{"organization_id" => org_id }) do
+  def guilds(conn, %{"organization_id" => org_id}) do
     user = conn.assigns.current_user |> Repo.preload(:guilds)
     organization = FcGuilds.Organizations.get_organization!(org_id) |> Repo.preload(:guilds)
     render(conn, "guilds.html", user: user, organization: organization)
   end
 
-  def users(conn, %{"organization_id" => org_id }) do
+  def users(conn, %{"organization_id" => org_id}) do
     organization = FcGuilds.Organizations.get_organization!(org_id) |> Repo.preload(:users)
     render(conn, "users.html", organization: organization)
   end

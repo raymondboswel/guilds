@@ -9,22 +9,20 @@ defmodule FcGuilds.UserInvites do
   alias FcGuilds.UserInvites.UserInvite
 
   def accept_invite(current_user, user_invite_id) do
-     # Todo: Ensure current_user.email and user_invite email are the same
+    # Todo: Ensure current_user.email and user_invite email are the same
     user = FcGuilds.Accounts.get_user_by_email(current_user.email) |> Repo.preload(:organizations)
     user_invite = get_user_invite!(user_invite_id)
     org = FcGuilds.Organizations.get_organization!(user_invite.organization_id)
-    user_orgs = user.organizations ++ [org] |>  Enum.map(&Ecto.Changeset.change/1)
-    user
-    |> Ecto.Changeset.change
-    |> Ecto.Changeset.put_assoc(:organizations, user_orgs)
-    |> Repo.update
+    user_orgs = (user.organizations ++ [org]) |> Enum.map(&Ecto.Changeset.change/1)
 
-    IO.inspect user
+    user
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:organizations, user_orgs)
+    |> Repo.update()
 
     user_invite
     |> UserInvite.changeset(%{status: "accepted"})
-    |> Repo.update
-
+    |> Repo.update()
   end
 
   @doc """
@@ -37,8 +35,10 @@ defmodule FcGuilds.UserInvites do
 
   """
   def list_user_invites(email) do
-    q = from u in UserInvite,
-      where: u.email == ^email and u.status == "pending"
+    q =
+      from u in UserInvite,
+        where: u.email == ^email and u.status == "pending"
+
     Repo.all(q)
   end
 

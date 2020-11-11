@@ -75,6 +75,7 @@ defmodule FcGuildsWeb.GuildControllerTest do
     test "deletes chosen guild", %{conn: conn, guild: guild} do
       conn = delete(conn, Routes.guild_path(conn, :delete, guild))
       assert redirected_to(conn) == Routes.guild_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.guild_path(conn, :show, guild))
       end

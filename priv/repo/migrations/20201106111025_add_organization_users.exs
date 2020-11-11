@@ -12,7 +12,9 @@ defmodule FcGuilds.Repo.Migrations.AddOrganizationUsers do
     create(index(:organization_users, [:user_id]))
 
     create(
-      unique_index(:organization_users, [:user_id, :organization_id], name: :user_id_organization_id_unique_index)
+      unique_index(:organization_users, [:user_id, :organization_id],
+        name: :user_id_organization_id_unique_index
+      )
     )
   end
 end

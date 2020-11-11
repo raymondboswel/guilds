@@ -17,9 +17,9 @@ defmodule FcGuilds.Organizations.OrganizationUser do
     timestamps()
   end
 
- @required_fields ~w(user_id organization_id)a
+  @required_fields ~w(user_id organization_id)a
   def changeset(organization_user, params \\ %{}) do
-   organization_user
+    organization_user
     |> cast(params, @required_fields)
     |> validate_required(@required_fields)
     |> foreign_key_constraint(:organization_id)

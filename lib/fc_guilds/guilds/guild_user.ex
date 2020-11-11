@@ -25,8 +25,8 @@ defmodule FcGuilds.Guilds.GuildUser do
     |> foreign_key_constraint(:guild_id)
     |> foreign_key_constraint(:user_id)
     |> unique_constraint([:user, :guild],
-    name: :user_id_guild_id_unique_index,
-    message: @already_exists
+      name: :user_id_guild_id_unique_index,
+      message: @already_exists
     )
   end
 end

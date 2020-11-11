@@ -10,16 +10,14 @@ defmodule FcGuilds.Guilds do
   alias FcGuilds.Guilds.GuildUser
 
   def join_guild(current_user, guild_id) do
+    user = FcGuilds.Accounts.get_user_by_email(current_user.email) |> Repo.preload(:guilds)
+    guild = FcGuilds.Guilds.get_guild!(guild_id)
+    user_guilds = (user.guilds ++ [guild]) |> Enum.map(&Ecto.Changeset.change/1)
 
-      # Todo: Ensure current_user.email and user_invite email are the same
-      user = FcGuilds.Accounts.get_user_by_email(current_user.email) |> Repo.preload(:guilds)
-      guild = FcGuilds.Guilds.get_guild!(guild_id)
-      user_guilds = user.guilds ++ [guild] |>  Enum.map(&Ecto.Changeset.change/1)
-      user
-      |> Ecto.Changeset.change
-      |> Ecto.Changeset.put_assoc(:guilds, user_guilds)
-      |> Repo.update
-
+    user
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:guilds, user_guilds)
+    |> Repo.update()
   end
 
   def leave_guild(current_user, guild_id) do

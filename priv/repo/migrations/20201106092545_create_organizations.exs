@@ -7,6 +7,5 @@ defmodule FcGuilds.Repo.Migrations.CreateOrganizations do
 
       timestamps()
     end
-
   end
 end

@@ -5,7 +5,7 @@ defmodule FcGuilds.UserInvites.UserInvite do
   schema "user_invites" do
     field :email, :string
     field :status, :string
-    belongs_to(:organization, FcGuilds.Organizations.Organization )
+    belongs_to(:organization, FcGuilds.Organizations.Organization)
 
     timestamps()
   end

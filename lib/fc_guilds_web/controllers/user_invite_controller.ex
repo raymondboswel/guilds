@@ -8,18 +8,19 @@ defmodule FcGuildsWeb.UserInviteController do
   def index(conn, _params) do
     user = conn.assigns.current_user
     user_invites = UserInvites.list_user_invites(user.email) |> Repo.preload(:organization)
-    IO.inspect user_invites
+    IO.inspect(user_invites)
     render(conn, "index.html", user_invites: user_invites)
   end
 
   def new(conn, %{"organization_id" => org_id}) do
     changeset = UserInvites.change_user_invite(%UserInvite{}, %{organization_id: org_id})
-    IO.inspect changeset
+    IO.inspect(changeset)
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"user_invite" => user_invite_params}) do
-    IO.inspect user_invite_params
+    IO.inspect(user_invite_params)
+
     case UserInvites.create_user_invite(user_invite_params) do
       {:ok, user_invite} ->
         conn
@@ -32,16 +33,23 @@ defmodule FcGuildsWeb.UserInviteController do
   end
 
   def accept(conn, %{"user_invite_id" => user_invite_id}) do
-    IO.inspect user_invite_id
+    IO.inspect(user_invite_id)
     user_invite = UserInvites.get_user_invite!(user_invite_id)
+
     case UserInvites.accept_invite(conn.assigns.current_user, user_invite_id) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User invite updated successfully.")
-        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: user_invite.organization_id))
+        |> redirect(
+          to:
+            Routes.organization_path(conn, :guilds, organization_id: user_invite.organization_id)
+        )
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        user_invites = UserInvites.list_user_invites(conn.assigns.current_user.email) |> Repo.preload(:organization)
+        user_invites =
+          UserInvites.list_user_invites(conn.assigns.current_user.email)
+          |> Repo.preload(:organization)
+
         render(conn, "index.html", user_invites: user_invites)
     end
   end

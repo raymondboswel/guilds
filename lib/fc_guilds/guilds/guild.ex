@@ -20,6 +20,6 @@ defmodule FcGuilds.Guilds.Guild do
   def changeset(guild, attrs) do
     guild
     |> cast(attrs, [:name, :organization_id])
-    |> validate_required([:name ])
+    |> validate_required([:name])
   end
 end

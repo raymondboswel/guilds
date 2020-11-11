@@ -42,7 +42,10 @@ defmodule FcGuilds.GuildEventsTest do
 
     test "update_guild_event/2 with valid data updates the guild_event" do
       guild_event = guild_event_fixture()
-      assert {:ok, %GuildEvent{} = guild_event} = GuildEvents.update_guild_event(guild_event, @update_attrs)
+
+      assert {:ok, %GuildEvent{} = guild_event} =
+               GuildEvents.update_guild_event(guild_event, @update_attrs)
+
       assert guild_event.duration == 43
       assert guild_event.event_date == DateTime.from_naive!(~N[2011-05-18T15:01:01Z], "Etc/UTC")
       assert guild_event.title == "some updated title"
@@ -50,7 +53,10 @@ defmodule FcGuilds.GuildEventsTest do
 
     test "update_guild_event/2 with invalid data returns error changeset" do
       guild_event = guild_event_fixture()
-      assert {:error, %Ecto.Changeset{}} = GuildEvents.update_guild_event(guild_event, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               GuildEvents.update_guild_event(guild_event, @invalid_attrs)
+
       assert guild_event == GuildEvents.get_guild_event!(guild_event.id)
     end
 

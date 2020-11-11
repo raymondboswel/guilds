@@ -11,12 +11,12 @@ defmodule FcGuildsWeb.GuildController do
 
   def new(conn, %{"organization_id" => org_id}) do
     changeset = Guilds.change_guild(%Guild{}, %{organization_id: org_id})
-    IO.inspect changeset
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"guild" => guild_params}) do
     IO.inspect(guild_params)
+
     case Guilds.create_guild(guild_params) do
       {:ok, guild} ->
         conn
@@ -33,11 +33,12 @@ defmodule FcGuildsWeb.GuildController do
       {:ok, guild} ->
         conn
         |> put_flash(:info, "Guild joined successfully.")
-        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:error, "Failed to join guild.")
-        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id))
     end
   end
 
@@ -46,11 +47,12 @@ defmodule FcGuildsWeb.GuildController do
       {:ok, guild} ->
         conn
         |> put_flash(:info, "Guild left successfully.")
-        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:error, "Failed to join guild.")
-        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id ))
+        |> redirect(to: Routes.organization_path(conn, :guilds, organization_id: org_id))
     end
   end
 

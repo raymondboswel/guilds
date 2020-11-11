@@ -56,7 +56,11 @@ defmodule FcGuildsWeb.OrganizationControllerTest do
     setup [:create_organization]
 
     test "redirects when data is valid", %{conn: conn, organization: organization} do
-      conn = put(conn, Routes.organization_path(conn, :update, organization), organization: @update_attrs)
+      conn =
+        put(conn, Routes.organization_path(conn, :update, organization),
+          organization: @update_attrs
+        )
+
       assert redirected_to(conn) == Routes.organization_path(conn, :show, organization)
 
       conn = get(conn, Routes.organization_path(conn, :show, organization))
@@ -64,7 +68,11 @@ defmodule FcGuildsWeb.OrganizationControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, organization: organization} do
-      conn = put(conn, Routes.organization_path(conn, :update, organization), organization: @invalid_attrs)
+      conn =
+        put(conn, Routes.organization_path(conn, :update, organization),
+          organization: @invalid_attrs
+        )
+
       assert html_response(conn, 200) =~ "Edit Organization"
     end
   end
@@ -75,6 +83,7 @@ defmodule FcGuildsWeb.OrganizationControllerTest do
     test "deletes chosen organization", %{conn: conn, organization: organization} do
       conn = delete(conn, Routes.organization_path(conn, :delete, organization))
       assert redirected_to(conn) == Routes.organization_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.organization_path(conn, :show, organization))
       end

@@ -14,11 +14,22 @@ defmodule FcGuildsWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+  end
+
+  scope "/api", FcGuildsWeb.API, as: :api do
+    pipe_through :api
+    post "/users/log_in", UserSessionController, :create
+    post "/users/register", UserRegistrationController, :register
+  end
+
+  scope "/api", FcGuildsWeb.API, as: :api do
+    pipe_through [:api, :api_require_authenticated]
+    resources "/organizations", OrganizationController
   end
 
   scope "/", FcGuildsWeb do
     pipe_through :browser
-
     get "/", PageController, :index
   end
 

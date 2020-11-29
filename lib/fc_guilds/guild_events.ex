@@ -58,7 +58,6 @@ defmodule FcGuilds.GuildEvents do
 
     Enum.each(guild_assignee_dates, fn gad ->
       {user_id, event_date} = gad
-
       res =
         create_guild_event(%{
           title: "Untitled",

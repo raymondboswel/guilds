@@ -121,7 +121,19 @@ defmodule FcGuildsWeb.UserAuth do
     end
   end
 
-  @doc """
+
+
+  defp maybe_store_return_to(%{method: "GET"} = conn) do
+    %{request_path: request_path, query_string: query_string} = conn
+    return_to = if query_string == "", do: request_path, else: request_path <> "?" <> query_string
+    put_session(conn, :user_return_to, return_to)
+  end
+
+  defp maybe_store_return_to(conn), do: conn
+
+  defp signed_in_path(_conn), do: "/"
+
+   @doc """
   Used for routes that require the user to be authenticated.
 
   If you want to enforce the user email is confirmed before
@@ -139,13 +151,50 @@ defmodule FcGuildsWeb.UserAuth do
     end
   end
 
-  defp maybe_store_return_to(%{method: "GET"} = conn) do
-    %{request_path: request_path, query_string: query_string} = conn
-    return_to = if query_string == "", do: request_path, else: request_path <> "?" <> query_string
-    put_session(conn, :user_return_to, return_to)
+  @doc """
+  Used for API routes that require the user to be authenticated.
+  """
+  def api_require_authenticated(conn, _opts) do
+    case get_auth_token(conn) do
+      {:ok, token} ->
+        case  Accounts.get_user_by_session_token(token) do
+          nil -> unauthorized(conn)
+          user -> authorized(conn, user)
+        end
+      _ -> unauthorized(conn)
+    end
   end
 
-  defp maybe_store_return_to(conn), do: conn
+  defp get_auth_token(conn) do
+    case extract_token(conn) do
+      {:ok, token} -> {:ok, token}
+      error -> error
+    end
+  end
 
-  defp signed_in_path(_conn), do: "/"
+  defp extract_token(conn) do
+    case Plug.Conn.get_req_header(conn, "authorization") do
+      [auth_header] -> get_token_from_header(auth_header)
+      _ -> {:error, :missing_auth_header}
+    end
+  end
+
+  defp get_token_from_header(auth_header) do
+    {:ok, reg} = Regex.compile("Bearer\:?\s+(.*)$", "i")
+    case Regex.run(reg, auth_header) do
+      [_, match] -> {:ok, String.trim(match)}
+      _ -> {:error, "token not found"}
+    end
+  end
+
+  defp authorized(conn, user) do
+    # If you want, add new values to `conn`
+    conn
+    |> assign(:signed_in, true)
+    |> assign(:current_user, user)
+  end
+
+  defp unauthorized(conn) do
+    conn |> send_resp(401, "Unauthorized") |> halt()
+  end
 end

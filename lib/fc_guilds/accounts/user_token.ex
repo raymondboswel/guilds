@@ -27,7 +27,7 @@ defmodule FcGuilds.Accounts.UserToken do
   tokens do not need to be hashed.
   """
   def build_session_token(user) do
-    token = :crypto.strong_rand_bytes(@rand_size)
+    token = :crypto.strong_rand_bytes(@rand_size) |> Base.encode64
     {token, %FcGuilds.Accounts.UserToken{token: token, context: "session", user_id: user.id}}
   end
 

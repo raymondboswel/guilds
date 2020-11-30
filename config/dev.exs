@@ -5,7 +5,7 @@ config :fc_guilds, FcGuilds.Repo,
   username: "testuser",
   password: "letmein",
   database: "fc_guilds_dev",
-  hostname: "localhost",
+  hostname: "postgres.local",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

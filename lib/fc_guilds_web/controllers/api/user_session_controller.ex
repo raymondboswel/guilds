@@ -8,12 +8,13 @@ defmodule FcGuildsWeb.API.UserSessionController do
     %{"email" => email, "password" => password} = user_params
 
     if user = Accounts.get_user_by_email_and_password(email, password) do
+
       token = Accounts.generate_user_session_token(user)
       render(conn, "token.json", token: token)
     else
       conn
-      |> put_status(:unauthorized)
-      render(conn, "auth_fail.json", error_message: "Invalid email or password")
+      |> put_status(401)
+      |> render("auth_fail.json", error_message: "Invalid email or password")
     end
   end
 

@@ -9,7 +9,7 @@ defmodule FcGuildsWeb.API.UserSessionView do
 
   def render("auth_fail.json", _ignore) do
     %{data: %{
-         message: "Invalid username or password"
+         message: "Invalid username or password :/"
       }}
   end
 end

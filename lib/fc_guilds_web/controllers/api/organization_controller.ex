@@ -14,6 +14,11 @@ defmodule FcGuildsWeb.API.OrganizationController do
   def link(conn, _params) do
   end
 
+  def show(conn, %{"id" => id}) do
+    organization = Organizations.get_organization!(id) |> Repo.preload(:guilds)
+    render(conn, "show.json", organization: organization)
+  end
+
   # def new(conn, _params) do
   #   changeset = Organizations.change_organization(%Organization{})
   #   render(conn, "new.html", changeset: changeset)
@@ -34,10 +39,7 @@ defmodule FcGuildsWeb.API.OrganizationController do
   #   end
   # end
 
-  # def show(conn, %{"id" => id}) do
-  #   organization = Organizations.get_organization!(id) |> Repo.preload(:guilds)
-  #   render(conn, "show.html", organization: organization)
-  # end
+
 
   # def guilds(conn, %{"organization_id" => org_id}) do
   #   user = conn.assigns.current_user |> Repo.preload(:guilds)

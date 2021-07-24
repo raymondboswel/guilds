@@ -21,7 +21,9 @@ defmodule FcGuildsWeb.API.UserRegistrationController do
 
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "error.json", changeset: changeset)
+        conn
+        |> put_status(422)
+        |> render( "error.json", changeset: changeset)
     end
   end
 end

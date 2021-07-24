@@ -26,6 +26,7 @@ defmodule FcGuildsWeb.Router do
   scope "/api", FcGuildsWeb.API, as: :api do
     pipe_through [:api, :api_require_authenticated]
     resources "/organizations", OrganizationController
+    resources "/guilds", GuildController
   end
 
   scope "/", FcGuildsWeb do
